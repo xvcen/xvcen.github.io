@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xvcen_Garant | Биография</title>
+    <link rel="preload" href="image/background.webm" as="video" type="video/webm">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #101010;
+            --primary-color: #1a1a1a;
+            --secondary-color: #242424;
+            --text-color: #e0e0e0;
+            --accent-color: #FFFFFF;
+            --font-family: 'Montserrat', sans-serif;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-family);
+            font-weight: 500;
+            margin: 0;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .background-video {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translateX(-50%) translateY(-50%);
+            z-index: -2;
+            filter: blur(4px);
+            -webkit-filter: blur(4px);
+            opacity: 0;
+            animation: fadeInVideo 1.5s ease-in forwards;
+        }
+        .background-effects {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        #particle-canvas {
+            width: 100%;
+            height: 100%;
+            display: block; /* Ensures canvas doesn't cause layout shift */
+        }
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        .profile {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .profile-picture {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 4px solid var(--accent-color);
+            object-fit: cover;
+            box-shadow: 0 0 20px rgba(255, 255, 255, .2);
+            transition: transform .3s ease;
+            background-color: var(--secondary-color);
+        }
+        .profile-picture:hover {
+            transform: scale(1.05);
+        }
+        h1 {
+            font-size: 2.5rem;
+            color: #fff;
+            margin: 20px 0 10px;
+            font-weight: 700;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-color);
+            font-weight: 300;
+        }
+        .card {
+            background: rgba(255, 255, 255, .05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, .1);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, .2);
+            transition: transform .3s ease, box-shadow .3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 40px rgba(0, 0, 0, .3);
+        }
+        h2 {
+            color: var(--accent-color);
+            border-bottom: 2px solid rgba(255, 255, 255, .1);
+            padding-bottom: 10px;
+            margin-top: 0;
+            font-weight: 700;
+        }
+        .biography ul {
+            list-style: none;
+            padding: 0;
+        }
+        .biography ul li {
+            background-color: rgba(0, 0, 0, .2);
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            transition: transform 0.3s ease;
+        }
+        .biography ul li:hover {
+            transform: scale(1.05);
+        }
+        .service-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+        .service-list li {
+            background-color: rgba(0, 0, 0, .2);
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+        .service-list li:hover {
+            transform: scale(1.05);
+        }
+        .service-list li i {
+            color: var(--accent-color);
+            font-size: 1.1em;
+            margin-right: 15px;
+            width: 20px;
+            text-align: center;
+        }
+        .social-links {
+            text-align: center;
+            margin-top: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        .social-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 1.2rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, .05);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, .1);
+            border-radius: 8px;
+            transition: background-color .3s ease, color .3s ease, transform 0.3s ease;
+            cursor: pointer;
+            font-family: var(--font-family);
+        }
+        .social-links a:hover {
+            background: rgba(255, 255, 255, .2);
+            color: #fff;
+            transform: scale(1.1);
+        }
+        .social-links .fab {
+            font-size: 1.5rem;
+            margin-right: 10px;
+        }
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity .6s ease-out, transform .6s ease-out;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            .container {
+                margin: 20px auto;
+                padding: 10px;
+            }
+            .profile-picture {
+                width: 120px;
+                height: 120px;
+            }
+        }
+        @import url(https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap);
+        #enter-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, .1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            cursor: pointer;
+            transition: opacity .5s ease-out;
+        }
+        #enter-screen p {
+            color: var(--accent-color);
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-shadow: 0 0 15px rgba(255, 255, 255, .5);
+            animation: pulse 2s infinite;
+        }
+        #main-content {
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity .5s ease-in;
+        }
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: .7;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        @keyframes fadeInVideo {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            }
+            to {
+                text-shadow: 0 0 20px rgba(255, 255, 255, 1), 0 0 30px rgba(255, 255, 255, 0.8);
+            }
+        }
+        .card {
+            background: linear-gradient(-45deg, rgba(255, 255, 255, .05), rgba(255, 255, 255, .05) 50%, rgba(0, 0, 0, .05) 50%, rgba(0, 0, 0, .05));
+            background-size: 200% 200%;
+            animation: gradientBG 15s ease infinite;
+        }
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        .service-list li:hover {
+            background: linear-gradient(90deg, rgba(255,255,255,.1), rgba(255,255,255,.3), rgba(255,255,255,.1));
+            background-size: 200% auto;
+            animation: shine 1s ease-in-out;
+        }
+        @keyframes shine {
+            from { background-position: 200%; }
+            to { background-position: -200%; }
+        }
+    </style>
+</head>
+<body oncontextmenu="return false;">
+    <div id="enter-screen">
+        <p>CLICK TO ENTER</p>
+    </div>
+    <video autoplay loop muted playsinline class="background-video" id="background-video">
+        <source src="image/background.webm" type="video/webm">
+        <source src="https://link.factorcode.ru/image/background.mp4" type="video/mp4">
+    </video>
+    <div class="background-effects">
+        <canvas id="particle-canvas"></canvas>
+    </div>
+    <div id="main-content">
+        <div class="container">
+            <header class="profile">
+                <img src="https://placehold.co/150x150/000000/FFFFFF?text=@Xvcen_Garant" alt="@Xvcen_Garant фото профиля"
+                    class="profile-picture" id="xvcen-avatar">
+                <h1 class="fade-in">Xvcen</h1>
+                <p class="subtitle fade-in">Разработчик | Веб-Дизайнер</p>
+            </header>
+            <main class="biography">
+                <section class="card fade-in">
+                    <h2>Заказы и разработка</h2>
+                    <ul class="service-list">
+                        <li><i class="fa-solid fa-palette"></i> Сайт-биография с красивыми стилями.</li>
+                        <li><i class="fa-solid fa-robot"></i> Telegram Бот под любую сложность.</li>
+                        <li><i class="fa-solid fa-gamepad"></i> Личный чит для PUBGM/Standoff.</li>
+                        <li><i class="fa-solid fa-server"></i> Дополнительно объясняю как подключать домены/хостинги.</li>
+                    </ul>
+                </section>
+                <section class="card fade-in">
+                    <h2>Навыки</h2>
+                    <ul>
+                        <li>C++</li>
+                        <li>C#</li>
+                        <li>Python</li>
+                        <li>JavaScript</li>
+                        <li>HTML & CSS</li>
+                        <li>APK Coding</li>
+                    </ul>
+                </section>
+                <section class="card fade-in">
+                    <h2>Проекты</h2>
+                    <p>• XVCEN | CONFIG</p>
+                    <p>• AIDE Pro [MODS]</p>
+                </section>
+            </main>
+            <footer class="social-links fade-in">
+                <a href="https://t.me/Xvcen_Garant" target="_blank">
+                    <i class="fab fa-telegram"></i>
+                    <span>Связь</span>
+                </a>
+            </footer>
+        </div>
+    </div>
+    <audio id="start-sound" src="music/start.mp3" preload="auto"></audio>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const t = "@Xvcen_Garant";
+            let e = 0;
+            document.title = "";
+            setInterval(() => {
+                e < t.length ? (document.title += t[e], e++) : (e = 0, document.title = "")
+            }, 250);
+            const n = document.getElementById("enter-screen"),
+                i = document.getElementById("main-content"),
+                a = document.getElementById("start-sound");
+            n && i && n.addEventListener("click", () => {
+                a && (a.volume = .1, a.play()), n.style.opacity = "0", setTimeout(() => {
+                    n.style.display = "none", i.style.visibility = "visible", i.style.opacity = "1"
+                }, 500)
+            }, {
+                once: !0
+            });
+
+            const o = document.getElementById("particle-canvas"),
+                c = o.getContext("2d");
+            let l = [];
+            const s = window.innerWidth < 768 ? 40 : 80;
+            function d() {
+                o.width = window.innerWidth, o.height = window.innerHeight
+            }
+            class r {
+                constructor() {
+                    this.x = Math.random() * o.width, this.y = Math.random() * o.height, this.size = Math.random() * 2 + 1, this.speedX = Math.random() * 1 - .5, this.speedY = Math.random() * 1 - .5
+                }
+                update() {
+                    this.x += this.speedX, this.y += this.speedY, (this.x < 0 || this.x > o.width) && (this.speedX *= -1), (this.y < 0 || this.y > o.height) && (this.speedY *= -1)
+                }
+                draw() {
+                    c.fillStyle = "rgba(255, 255, 255, 0.8)", c.beginPath(), c.arc(this.x, this.y, this.size, 0, 2 * Math.PI), c.fill()
+                }
+            }
+            function u() {
+                l = [];
+                for (let t = 0; t < s; t++) l.push(new r)
+            }
+            function m() {
+                c.clearRect(0, 0, o.width, o.height);
+                for (let t = 0; t < l.length; t++) l[t].update(), l[t].draw();
+                requestAnimationFrame(m)
+            }
+            d(), u(), m();
+            window.addEventListener("resize", () => {
+                d(), u()
+            });
+
+            const p = new IntersectionObserver(t => {
+                t.forEach(t => {
+                    t.isIntersecting && t.target.classList.add("visible")
+                })
+            }, {
+                threshold: .1
+            });
+            document.querySelectorAll(".fade-in").forEach(t => p.observe(t));
+
+            document.addEventListener("keydown", function(t) {
+                123 == t.keyCode || t.ctrlKey && t.shiftKey && ("I" == t.key || "J" == t.key || "C" == t.key) || t.ctrlKey && ("U" == t.key || "S" == t.key) ? t.preventDefault() : void 0
+            });
+
+            const subtitleElement = document.querySelector('.subtitle');
+            const subtitleText = subtitleElement.textContent;
+            subtitleElement.textContent = '';
+            let k = 0;
+            const typingEffect = setInterval(() => {
+                if (k < subtitleText.length) {
+                    subtitleElement.textContent += subtitleText.charAt(k);
+                    k++;
+                } else {
+                    clearInterval(typingEffect);
+                }
+            }, 200); // Increased delay to make it slower
+
+            const v = document.getElementById("background-video");
+            v && v.play().catch(() => {
+                console.log("Autoplay was prevented by browser.")
+            });
+        });
+    </script>
+</body>
+</html>
